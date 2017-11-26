@@ -15,25 +15,13 @@ int main(void){
     printf("error name:%d\n",errno);
     exit(EXIT_FAILURE);
   case 0: 
-    printf("Pid mio=%d, mi patriarca:%d\n",getpid(),getppid());
-    exit(EXIT_SUCCESS);
+    printf("Pid mio=%d, mi padre:%d\n",getpid(),getppid());
   default:
     system("ps -a");
     sleep(20);
-    childpid=wait(&status);
-     if(childpid>0){
-       if(WIFEXITED(status)){
-         printf("status %d exited:%d\n",childpid,WEXITSTATUS(status));
-        }
-       else if (WIFSIGNALED(status)) {
-                    printf("child %d killed (signal %d)\n", childpid, WTERMSIG(status));
-        }
-  } else if (WIFSTOPPED(status)) {
-                    printf("child %d stopped (signal %d)\n", childpid, WSTOPSIG(status));
-                } 
-            }
+    exit(EXIT_SUCCESS);
          
             //return 0;
-    
-  
+
+}
 }

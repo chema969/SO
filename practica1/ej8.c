@@ -7,7 +7,7 @@
 #include <sys/wait.h> 
 #include <errno.h>
 
-int* contador;
+int* contador=NULL;
 
 
 int main(){
@@ -16,7 +16,7 @@ int main(){
   printf("Cuantas hijos quieres crear: ");
  scanf("%d",&i);
   key_t Clave=ftok("/bin/cp",222);
-  Id=shmget(Clave,sizeof(int),0777|IPC_CREAT);
+  Id=shmget(Clave,sizeof(int)*2,0777|IPC_CREAT);
    if(Id==-1){
     printf("No se ha podido acceder a memoria comprartida\n");
     exit(0);
@@ -27,7 +27,8 @@ int main(){
 		printf("No consigo memoria compartida\n");
 		exit (0);
 	}
-  *contador=0;
+  contador[0]=0;
+  contador[1]=0;
   for(j=0;j<i;j++){
    pid=fork();
    switch(pid){
@@ -41,12 +42,19 @@ int main(){
 		printf("No consigo memoria compartida\n");
 		exit (0);
 	}
+   if(contador[1]<j){
+     while(contador[1]!=i) {
+            printf("%d\n",i);
+				usleep(100);
+			}
+           }
         for(j=0;j<100;j++){
-        (*contador)++;
+        contador[0]++;
          }
         printf("proceso %d de padre %d, contador=%d\n",getpid(),getppid(),*contador);
+        contador[1]++;
            shmdt ((char *)contador);
-       exit(EXIT_SUCCESS);
+       exit(i);
 
       default: 
             childpid=wait(&status); 
@@ -63,6 +71,6 @@ int main(){
         }
      }
     printf("contador final=%d\n",*contador);
-   shmctl (Id, IPC_RMID, (struct shmid_ds *)NULL);
+
 
 }

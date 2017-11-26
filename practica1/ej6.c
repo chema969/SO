@@ -5,7 +5,7 @@
 #include <unistd.h> //Para fork()
 #include <errno.h>
 
-int MAX=0;
+int contador=0;
 int main(){
   int n,i;
   scanf("%d",&n);
@@ -23,8 +23,8 @@ int main(){
             //return (-1);
             
         case 0: /* proceso hijo */
-            MAX++;	
-            printf("Proceso hijo %d; padre = %d,MAX=%d \n", getpid(), getppid(),MAX); 
+            contador++;	
+            printf("Proceso hijo %d; padre = %d,contador=%d \n", getpid(), getppid(),contador); 
             exit(EXIT_SUCCESS);
       }
      }      

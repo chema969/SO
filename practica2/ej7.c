@@ -39,7 +39,8 @@ void imprime(int *v){
    }
 }
 void *cliente(int *v){
-   int i=rand()%5,j,k=rand()%50;
+   int i=rand()%5,j,k;
+   k=rand()%v[i]+1;
    pthread_mutex_lock (&sem);
    for(j=0;j<k;j++){
     v[i]--;
@@ -51,7 +52,7 @@ void *cliente(int *v){
  }
 
 void *proveedor(int *v){
-   int i=rand()%5,j,k=rand()%50;
+   int i=rand()%5,j,k=rand()%50+1;
    for(j=0;j<k;j++){
     pthread_mutex_lock (&sem);
     v[i]++;

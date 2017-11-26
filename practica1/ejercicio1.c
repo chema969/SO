@@ -10,9 +10,6 @@ int main(){
   scanf("%d",&n);
   pid_t pid;
     int status, childpid;
-	int a= 5;
-	int *p;
-    p=&a;
    for(i=0;i<n;i++){ 
     pid = fork(); 
     
@@ -24,13 +21,13 @@ int main(){
             //return (-1);
             
         case 0: /* proceso hijo */
-			a=10;
-            printf("Proceso hijo %d; padre = %d, p=%p, a=%d \n", getpid(), getppid(),&a, *p); 
+			
+            printf("Proceso hijo %d; padre = %d\n", getpid(), getppid()); 
             exit(EXIT_SUCCESS);
       }
      }      
         if(pid!=0){ /* padre */
-            printf("Proceso %d; padre = %d, p=%p , a=%d\n", getpid(), getppid(),&a, *p);
+            printf("Proceso %d; padre = %d\n", getpid(), getppid());
             childpid=wait(&status); 
             if(childpid>0)
             {

@@ -5,46 +5,34 @@
 #include <unistd.h> //Para fork()
 #include <errno.h>
 
-int main(void) 
-{
- pid_t pid;
- int i,j,childpid,status;
+int main(void) {
+ pid_t pid,childpid;
+ int i,j,status;
  printf("Cuantas hijos quieres crear: ");
  scanf("%d",&i);
- pid=fork();
- for(j=0;j<i-1;j++){
- switch(pid){
-  case -1:
-   perror("fork error");
-   printf("errno value:%d\n",errno);
-   exit(EXIT_FAILURE);
-  case 0:
+ for(j=0;j<i;j++){
    pid=fork();
-  }
-}
    switch(pid){
    case -1:
-   perror("fork error");
+    perror("fork error");
    printf("errno value:%d\n",errno);
    exit(EXIT_FAILURE);
-   case 0: 
-    exit(EXIT_SUCCESS);
-   default:/* padre */
-            printf("Proceso %d; padre = %d\n", getpid(), getppid());
-            childpid=wait(&status); 
-            if(childpid>0)
-            {
-                if (WIFEXITED(status)) {
-                    printf("child %d exited, status=%d\n",childpid, WEXITSTATUS(status));
-                } else if (WIFSIGNALED(status)) {
-                    printf("child %d killed (signal %d)\n", childpid, WTERMSIG(status));
-                } else if (WIFSTOPPED(status)) {
-                    printf("child %d stopped (signal %d)\n", childpid, WSTOPSIG(status));
-                } 
-            }
+   break;
+  case 0:
+   printf("Soy el hijo %d,mi pid:%d, mi padre:%d\n",j,getpid(),getppid());
+  break;
+  default:
+   childpid=wait(&status);
+    if(childpid>0){
+      if (WIFEXITED(status)) {
+       printf("child %d exited, status=%d\n",childpid, WEXITSTATUS   (status)); }
+      else if(WIFSIGNALED(status)){
+       printf("child %d killed (signal %d)\n", childpid, WTERMSIG(status)); }
+      else if (WIFSTOPPED(status)) {
+          printf("child %d stopped (signal %d)\n", childpid, WSTOPSIG(status)); }
 }
-exit(0);
+exit(EXIT_SUCCESS);
+}
 }
 
-
-
+}

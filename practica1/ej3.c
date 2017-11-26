@@ -8,18 +8,18 @@ int esperar();
 int main(void){
    pid_t pid;
    int sum=0,sum1,sum2=0;
-   pid=fork(); sleep(5);
+   pid=fork();
    if (pid==0)salir("hijo 1",0);
    sum1=esperar();
-   pid=fork(); sleep(5);
+   pid=fork();
    if (pid==0){//hijo 2 
-     pid=fork(); sleep(5);//nieto 1
+     pid=fork();//nieto 1
       if (pid==0) salir("nieto 1",0);
         sum2=esperar();
            
-     pid=fork(); sleep(5);//nieto 2
+     pid=fork();//nieto 2
       if (pid==0){
-        pid=fork(); sleep(5);
+        pid=fork();
         if (pid==0) salir("bisnieto",0);  
          sum=esperar();
             
