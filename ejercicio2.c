@@ -56,20 +56,22 @@ int main(){
           if(procesos[k].t_ejec<j)j=procesos[k].t_ejec;
           }
        }
-       if(k==NPROC) j=procesos[k].t_ejec;
+       if(i==NPROC-1) j=procesos[k].t_ejec;
       for(k=i+1;k<NPROC;k++){
         if(procesos[k].t_ejec==j){  
            parametros aux;
            aux=procesos[i+1];
            procesos[i+1]=procesos[k];
            procesos[k]=aux;}
-        else cicloreloj++;
+         }
+       if(j==99999999)cicloreloj++;
       }
-      }
-   
-    procesos[i].t_fin = procesos[i].t_com + procesos[i].t_ejec;
-        procesos[i].t_ret = procesos[i].t_fin - procesos[i].t_lleg;
-        procesos[i].t_esp = procesos[i].t_ret - procesos[i].t_ejec;
+  if(i!=NPROC-1){
+  procesos[i+1].t_com=cicloreloj;
+  procesos[i+1].t_fin=procesos[i+1].t_com+procesos[i+1].t_ejec;
+  procesos[i+1].t_ret=procesos[i+1].t_fin-procesos[i+1].t_lleg;
+  procesos[i+1].t_esp=procesos[i+1].t_ret-procesos[i+1].t_ejec;}
+    
  printf("   %s \t    %d \t\t %d \t   %d \t      %d\n", procesos[i].nombre,procesos[i].t_com, procesos[i].t_fin, procesos[i].t_ret, procesos[i].t_esp);
 }
 }
